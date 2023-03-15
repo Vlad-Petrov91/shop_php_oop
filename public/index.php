@@ -11,8 +11,13 @@ include __DIR__ . "/../config/config.php";
 spl_autoload_register([new Autoload(), 'loadClass']);
 
 
-$user = new User();
-var_dump($user->getOne(1));
+//$user = new User();
+//var_dump($user->getOne(1));
 
 $product = new Product();
+$product = $product->getOne(16);
+var_dump($product);
+//$product->delete();
+//var_dump($product->insert());
 var_dump($product->getAll());
+
