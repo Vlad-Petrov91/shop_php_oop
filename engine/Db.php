@@ -60,7 +60,7 @@ class Db
         return $STH;
     }
 
-    public function queryOne($sql, $params = [])
+    public function   queryOne($sql, $params = [])
     {
         return $this->query($sql, $params)->fetch();
     }
@@ -75,10 +75,10 @@ class Db
         return $this->query($sql, $params)->rowCount();
     }
 
-    public function queryOneObject($sql,$params,$class)
+    public function queryOneObject($sql, $params, $class)
     {
-        $STH = $this->query($sql,$params);
-        $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,$class);
+        $STH = $this->query($sql, $params);
+        $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
         return $STH->fetch();
     }
 
