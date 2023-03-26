@@ -23,8 +23,12 @@ if($controllerClass){
 }
 
 
+//$product = new Product();
+//$product = $product->getOne(1);
 
-
+$product = Product::getOne(1);
+$product->price = 99;
+$product->save();
 
 
 
@@ -32,10 +36,9 @@ die();
 //$user = new User();
 //var_dump($user->getOne(1));
 
-$product = new Product();
-//$product = $product->getOne(16);
+
 //var_dump($product);
 //$product->delete();
 //var_dump($product->insert());
-var_dump($product->getAll());
+
 

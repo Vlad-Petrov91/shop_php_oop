@@ -31,13 +31,30 @@ abstract class DBModel extends Model
 
     public function update()
     {
-        //TODO сделать update
+        $attributes = [];
+        $params[':id'] = $this->id;
+        foreach ($this->props as $key => $value) {
+            if ($value) {
+                $attributes[] = "`{$key}`=:{$key}";
+                $params[':' . $key] = $this->$key;
+                $this->props[$key] = false;
+
+            }
+        }
+        $attributes = implode(',', $attributes);
+        $tableName = static::getTableName();
+        $sql = "UPDATE {$tableName} SET {$attributes} WHERE `id` = :id";
+        Db::getInstance()->execute($sql, $params);
+        return $this;
     }
 
     public function save()
     {
-        //TODO тоже сделать
-        //if() $this->insert; else $this->update();
+        if (is_null($this->id)) {
+            $this->insert();
+        } else {
+            $this->update();
+        }
     }
 
     public function delete()
@@ -60,5 +77,12 @@ abstract class DBModel extends Model
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName}";
         return Db::getInstance()->queryAll($sql);
+    }
+
+    public static function getLimit($limit)
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} LIMIT 0, ?";
+        return Db::getInstance()->queryLimit($sql, $limit);
     }
 }

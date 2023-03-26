@@ -22,14 +22,18 @@ class ProductController
 
     private function actionIndex()
     {
-       echo $this->render('index');
+        echo $this->render('index');
     }
 
     private function actionCatalog()
     {
-        $catalog = Product::getAll();
-       echo $this->render('product/catalog', [
-            'catalog' => $catalog
+        $page = $_GET['page'] ?: 0;
+
+        //$catalog = Product::getAll();
+        $catalog = Product::getLimit(($page + 1) * 3);
+        echo $this->render('product/catalog', [
+            'catalog' => $catalog,
+            'page' => ++$page
         ]);
     }
 
@@ -37,16 +41,16 @@ class ProductController
     {
         $id = $_GET['id'];
         $product = Product::getOne($id);
-       echo $this->render('product/card', [
+        echo $this->render('product/card', [
             'product' => $product
         ]);
     }
 
     public function render($template, $params = [])
     {
-        return $this->renderTemplate('layouts/main',[
+        return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu'),
-            'content'=> $this->renderTemplate($template, $params),
+            'content' => $this->renderTemplate($template, $params),
         ]);
     }
 

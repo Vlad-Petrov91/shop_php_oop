@@ -12,7 +12,7 @@ class Db
         'host' => 'localhost:3306',
         'login' => 'root',
         'password' => '',
-        'database' => 'gb',
+        'database' => 'shop',
         'charset' => 'utf8',
     ];
 
@@ -60,7 +60,7 @@ class Db
         return $STH;
     }
 
-    public function   queryOne($sql, $params = [])
+    public function queryOne($sql, $params = [])
     {
         return $this->query($sql, $params)->fetch();
     }
@@ -80,6 +80,16 @@ class Db
         $STH = $this->query($sql, $params);
         $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
         return $STH->fetch();
+    }
+
+    public function queryLimit($sql, $limit)
+    {
+
+        $STH = $this->getConnection()->prepare($sql);
+        $STH->bindValue(1, $limit, \PDO::PARAM_INT);
+//        $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
+        $STH->execute();
+        return $STH->fetchAll();
     }
 
 }

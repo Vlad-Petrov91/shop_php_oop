@@ -4,10 +4,16 @@ namespace app\models;
 
 class Product extends DBModel
 {
-public $id;
-public $name;
-public $description;
-public $price;
+    protected $id;
+    protected $name;
+    protected $description;
+    protected $price;
+
+    protected $props = [
+        'name' => false,
+        'description' => false,
+        'price' => false
+    ];
 
     /**
      * @param $name
@@ -22,7 +28,7 @@ public $price;
     }
 
     protected static function getTableName()
-{
-    return 'products';
-}
+    {
+        return 'products';
+    }
 }
