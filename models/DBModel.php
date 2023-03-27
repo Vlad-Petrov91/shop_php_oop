@@ -13,10 +13,9 @@ abstract class DBModel extends Model
         $attributes = [];
         $params = [];
 
-        foreach ($this as $key => $value) {
-            if ($key === 'id') continue;
+        foreach ($this->props as $key => $value) {
             $attributes[] = $key;
-            $params[':' . $key] = $value;
+            $params[':' . $key] = $this->$key;
         }
 
         $attributes = implode(',', $attributes);
@@ -38,7 +37,6 @@ abstract class DBModel extends Model
                 $attributes[] = "`{$key}`=:{$key}";
                 $params[':' . $key] = $this->$key;
                 $this->props[$key] = false;
-
             }
         }
         $attributes = implode(',', $attributes);

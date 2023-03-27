@@ -7,7 +7,7 @@ use PDO;
 
 class Db
 {
-    private $config = [
+    private array $config = [
         'driver' => 'mysql',
         'host' => 'localhost:3306',
         'login' => 'root',
@@ -53,38 +53,37 @@ class Db
 //        var_dump($answer->fetch());
     }
 
-    private function query($query, $params)
+    private function query(string $query,array $params)
     {
         $STH = $this->getConnection()->prepare($query);
         $STH->execute($params);
         return $STH;
     }
 
-    public function queryOne($sql, $params = [])
+    public function queryOne(string $sql, array $params = [])
     {
         return $this->query($sql, $params)->fetch();
     }
 
-    public function queryAll($sql, $params = [])
+    public function queryAll(string $sql, array $params = [])
     {
         return $this->query($sql, $params)->fetchAll();
     }
 
-    public function execute($sql, $params = [])
+    public function execute(string $sql, array $params = [])
     {
         return $this->query($sql, $params)->rowCount();
     }
 
-    public function queryOneObject($sql, $params, $class)
+    public function queryOneObject(string $sql, array $params, $class)
     {
         $STH = $this->query($sql, $params);
         $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
         return $STH->fetch();
     }
 
-    public function queryLimit($sql, $limit)
+    public function queryLimit(string $sql, int $limit)
     {
-
         $STH = $this->getConnection()->prepare($sql);
         $STH->bindValue(1, $limit, \PDO::PARAM_INT);
 //        $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
