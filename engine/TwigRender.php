@@ -3,11 +3,22 @@
 namespace app\engine;
 
 use app\interfaces\IRender;
+use Twig\Loader\FilesystemLoader;
+
 
 class TwigRender implements IRender
 {
+
+    private $twig;
+
+    public function __construct()
+    {
+        $loader = new \Twig\Loader\FilesystemLoader('../templates');
+        $this->twig = new \Twig\Environment($loader);
+    }
+
     public function renderTemplate($template, $params = [])
     {
-        return 'Hello from twigRender';
+        return $this->twig->render($template . '.twig', $params);
     }
 }

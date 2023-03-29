@@ -18,7 +18,22 @@ class User extends DBModel
         $this->pass = $pass;
     }
 
-    protected  static function getTableName()
+    public static function Auth($login, $pass)
+    {
+
+    }
+
+    public static function isAuth()
+    {
+        return isset($_SESSION['login']);
+    }
+
+    public static function getName()
+    {
+        return $_SESSION['login'];
+    }
+
+    protected static function getTableName()
     {
         return 'users';
     }

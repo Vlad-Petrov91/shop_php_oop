@@ -10,7 +10,6 @@ abstract class Model implements IModel
     protected $props = [];
     public function __set($name, $value)
     {
-
         //TODO изменять только те поля что есть в классе
         $this->props[$name] = true;
         $this->$name = $value;
@@ -20,6 +19,11 @@ abstract class Model implements IModel
     {
         //TODO читать только те поля что есть в классе
         return $this->$name;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->$name);
     }
 
 }

@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\engine\Render;
 use app\interfaces\IRender;
 
-class Controller
+abstract class Controller
 {
     protected $action;
     protected $defaultAction = 'index';
@@ -15,7 +15,6 @@ class Controller
     {
         $this->render = $render;
     }
-
 
     public function runAction($action)
     {
@@ -32,7 +31,7 @@ class Controller
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu'),
-            'content' => $this->renderTemplate($template, $params),
+            'content' => $this->renderTemplate($template, $params)
         ]);
     }
 
