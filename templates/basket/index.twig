@@ -1,1 +1,11 @@
 <h2>Корзина</h2>
+
+{% for item in basket %}
+    <div id="{{ item.id }}">
+        <h3><a href="/product/card/?id={{ item.prod_id }}">{{ item.name }}</a></h3>
+        <p>{{ item.name }}</p>
+        <button>Удалить</button>
+    </div>
+{% else %}
+    Корзина пуста
+{% endfor %}

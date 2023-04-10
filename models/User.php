@@ -20,7 +20,14 @@ class User extends DBModel
 
     public static function Auth($login, $pass)
     {
-
+        //TODO проверять пароль только если user не false и захешировать пароль в БД используя password_hash() password_verify()
+        $user = User::getWhere('login', $login);
+        if ($pass == $user->pass) {
+            // TODO переделать на session class
+            $_SESSION['login'] = $login;
+            return true;
+        }
+            return false;
     }
 
     public static function isAuth()

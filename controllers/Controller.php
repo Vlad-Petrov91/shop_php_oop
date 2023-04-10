@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\engine\Render;
 use app\interfaces\IRender;
+use app\models\Basket;
+use app\models\User;
 
 abstract class Controller
 {
@@ -30,7 +32,11 @@ abstract class Controller
     public function render($template, $params = [])
     {
         return $this->renderTemplate('layouts/main', [
-            'menu' => $this->renderTemplate('menu'),
+            'menu' => $this->renderTemplate('menu', [
+                'userName' => User::getName(),
+                'isAuth' => User::isAuth(),
+                'count' => Basket::getCountWhere('session_id', session_id())
+            ]),
             'content' => $this->renderTemplate($template, $params)
         ]);
     }

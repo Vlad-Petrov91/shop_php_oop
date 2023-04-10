@@ -1,3 +1,20 @@
+{% if isAuth %}
+    <div>
+        Добро пожаловать {{ userName }}
+        <a href="/auth/logout">[Выход]</a>
+    </div>
+{% else %}
+    <form action="/auth/login" method="post">
+        <label>
+            <input type="text" name="login" placeholder="Логин">
+        </label>
+        <label>
+            <input type="password" name="pass" placeholder="Пароль">
+        </label>
+        <input type="submit" name="submit" value="Войти">
+    </form>
+{% endif %}
+
 <a href="/">Главная</a>
-<a href="/?c=product&a=catalog">Каталог</a>
-<a href="/?c=basket">Корзина</a><br>
+<a href="/product/catalog">Каталог</a>
+<a href="/basket">Корзина(<span id="count">{{ count }}</span>)</a><br>

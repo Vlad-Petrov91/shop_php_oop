@@ -1,13 +1,29 @@
 <h2>Каталог</h2>
 
 {% for item in catalog %}
-<div>
-    <h3><a href="/?c=product&a=card&id={{ item.id }}">{{ item.name }}</a></h3>
-    <p>{{ item.name }}</p>
-    <button>Купить</button>
-</div>
+    <div>
+        <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
+        <p>{{ item.name }}</p>
+        <button class="buy" data-id="{{ item.id }}">Купить</button>
+    </div>
 {% else %}
-нет товаров
+    нет товаров
 {% endfor %}
 
-<a href="/?c=product&a=catalog&page={{ page }}">Ещё</a>
+<a href="/product/catalog/?page={{ page }}">Ещё</a>
+
+<script>
+    let buttons = document.querySelectorAll('.buy');
+    buttons.forEach((elem) => {
+        elem.addEventListener('click', () => {
+           let id = elem.getAttribute('data-id');
+            (
+                async () => {
+                    const responce = await fetch('/basket/add/?id=' + id);
+                    const answer = await responce.json();
+                    document.getElementById('count').innerText = answer.count;
+                }
+            )();
+        })
+    })
+</script>
