@@ -5,6 +5,7 @@
         <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
         <p>{{ item.name }}</p>
         <button class="buy" data-id="{{ item.id }}">Купить</button>
+        <a href="/basket/add/?id={{ item.id }}">купить</a>
     </div>
 {% else %}
     нет товаров
