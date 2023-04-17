@@ -2,10 +2,8 @@
 
 session_start();
 
+use app\engine\{TwigRender};
 use app\engine\Autoload;
-use app\engine\Db;
-use app\models\{User, Product};
-use app\engine\{Render, TwigRender};
 use app\engine\Request;
 
 include __DIR__ . "/../engine/Autoload.php";
@@ -18,7 +16,6 @@ $request = new Request();
 
 $controllerName = $request->getControllerName() ?: 'index';
 $actionName = $request->getActionName();
-
 
 $controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 

@@ -2,10 +2,11 @@
 
 namespace app\controllers;
 
-use app\engine\Render;
 use app\interfaces\IRender;
-use app\models\Basket;
-use app\models\User;
+use app\models\entities\Basket;
+use app\models\entities\User;
+use app\models\repositories\BasketRepository;
+use app\models\repositories\UserRepository;
 
 abstract class Controller
 {
@@ -33,9 +34,9 @@ abstract class Controller
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', [
-                'userName' => User::getName(),
-                'isAuth' => User::isAuth(),
-                'count' => Basket::getCountWhere('session_id', session_id())
+                'userName' => (new UserRepository())->getName(),
+                'isAuth' => (new UserRepository())->isAuth(),
+                'count' => (new BasketRepository())->getCountWhere('session_id', session_id())
             ]),
             'content' => $this->renderTemplate($template, $params)
         ]);

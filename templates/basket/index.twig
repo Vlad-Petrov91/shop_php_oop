@@ -11,7 +11,6 @@
 {% endfor %}
 
 <script>
-
     let buttons = document.querySelectorAll('.delete');
     buttons.forEach((elem) => {
         elem.addEventListener('click', () => {
@@ -21,8 +20,7 @@
                     const responce = await fetch('/basket/delete/?id=' + id);
                     const answer = await responce.json();
                     document.getElementById('count').innerText = answer.count;
-                    const element = document.getElementById(id);
-                    element.remove();
+                    document.getElementById(id).remove();
                 }
             )();
         })

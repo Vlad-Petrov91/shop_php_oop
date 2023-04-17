@@ -3,16 +3,21 @@
 namespace app\controllers;
 
 use app\engine\Request;
-use app\models\User;
+use app\engine\Session;
+use app\models\repositories\UserRepository;
 
 class AuthController extends Controller
 {
     public function actionLogin()
     {
         $request = new Request();
-        $login = $request->__get('params')['login'];
-        $pass = $request->__get('params')['pass'];
-        if (User::Auth($login, $pass)) {
+        if (!empty($request->params['login'])) {
+            $login = $request->params['login'];
+        }
+        if (!empty($request->params['pass'])) {
+            $pass = $request->params['pass'];
+        }
+        if ((new UserRepository())->Auth($login, $pass)) {
             header("Location: /");
             die();
         } else {
@@ -22,8 +27,9 @@ class AuthController extends Controller
 
     public function actionLogout()
     {
-        session_regenerate_id();
-        session_destroy();
+        $session = new Session();
+        $session->regenerate();
+        $session->destroy();
         header("Location: /");
         die();
     }
