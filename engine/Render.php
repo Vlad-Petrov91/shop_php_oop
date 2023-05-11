@@ -10,7 +10,7 @@ class Render implements IRender
     {
         ob_start();
         extract($params);
-        include VIEWS_DIR . $template . '.php';
+        include App::call()->config['views_dir'] . $template . '.php';
         return ob_get_clean();
     }
 }

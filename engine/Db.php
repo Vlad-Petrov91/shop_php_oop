@@ -2,23 +2,23 @@
 
 namespace app\engine;
 
-use app\traits\TSingletone;
 use PDO;
 
 class Db
 {
-    private array $config = [
-        'driver' => 'mysql',
-        'host' => 'localhost:3306',
-        'login' => 'root',
-        'password' => '',
-        'database' => 'shop',
-        'charset' => 'utf8',
-    ];
+    private $config;
 
     private $connection = null;
 
-    use TSingletone;
+    public function __construct($driver = null, $host = null, $login = null, $password = null, $database = null, $charset = 'utf8')
+    {
+        $this->config['driver'] = $driver;
+        $this->config['host'] = $host;
+        $this->config['login'] = $login;
+        $this->config['password'] = $password;
+        $this->config['database'] = $database;
+        $this->config['charset'] = $charset;
+    }
 
     public function lastInsertId()
     {
@@ -53,7 +53,7 @@ class Db
 //        var_dump($answer->fetch());
     }
 
-    private function query(string $query,array $params)
+    private function query(string $query, array $params)
     {
         $STH = $this->getConnection()->prepare($query);
         $STH->execute($params);

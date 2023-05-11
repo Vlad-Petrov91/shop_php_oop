@@ -4,14 +4,15 @@ namespace app\controllers;
 
 use app\engine\Request;
 use app\models\repositories\ProductRepository;
+use app\engine\App;
 
 class ProductController extends Controller
 {
     public function actionCatalog()
     {
-        $page = (new Request())->params['page'] ?? 0;
+        $page = App::call()->request->params['page'] ?? 0;
         //$catalog = Product::getAll();
-        $catalog = (new ProductRepository())->getLimit(($page + 1) * 3);
+        $catalog = App::call()->productRepository->getLimit(($page + 1) * 3);
         echo $this->render('catalog/index', [
             'catalog' => $catalog,
             'page' => ++$page
@@ -22,8 +23,8 @@ class ProductController extends Controller
     {
         // $id = $_GET['id'];
         //$id = (new Request())->__get('params')['id'];
-        $id = (new Request())->params['id'];
-        $product = (new ProductRepository())->getOne($id);
+        $id = App::call()->request->params['id'];
+        $product = App::call()->productRepository->getOne($id);
         echo $this->render('catalog/card', [
             'product' => $product
         ]);

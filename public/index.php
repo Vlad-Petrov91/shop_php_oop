@@ -2,29 +2,19 @@
 
 session_start();
 
-use app\engine\{TwigRender};
-use app\engine\Autoload;
-use app\engine\Request;
+use app\engine\App;
 
-include __DIR__ . "/../engine/Autoload.php";
-include __DIR__ . "/../config/config.php";
-
-spl_autoload_register([new Autoload(), 'loadClass']);
 require_once '../vendor/autoload.php';
+$config = include "../config/config.php";
 
-$request = new Request();
-
-$controllerName = $request->getControllerName() ?: 'index';
-$actionName = $request->getActionName();
-
-$controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
-
-if (class_exists($controllerClass)) {
-    $controllerClass = new $controllerClass(new TwigRender());
-    $controllerClass->runAction($actionName);
-} else {
-    echo "Контроллер не существует";
+try {
+    App::call()->run($config);
+} catch (PDOException $exception) {
+    var_dump($exception->getMessage());
+} catch (Exception $exception) {
+    var_dump($exception);
 }
+
 
 
 

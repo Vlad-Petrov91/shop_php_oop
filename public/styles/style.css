@@ -1,0 +1,80 @@
+* {
+    font-family: 'Comfortaa', cursive;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --bg-color: #E5E5E5;
+    --second-bg-color: #222222;
+    --text-color: #5D5D5D;
+    --main_color: #F16D7F;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+section {
+    min-height: 100vh;
+    padding: 10rem 9% 2rem;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 9%;
+    background-color: var(--second-bg-color);
+    color: #E5E5E5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header .sticky {
+    border-bottom: .1rem solid rgba(0, 0, 0, .2);
+}
+
+.logo {
+    font-size: 2.5rem;
+    color: #E5E5E5;
+    font-weight: 600;
+    cursor: default;
+}
+
+.navbar a {
+    font-size: 1.7rem;
+    color: #E5E5E5;
+    margin-left: 4rem;
+    transition: .3s;
+}
+
+.navbar a:hover {
+    color: var(--main_color);
+}
+
+.navbar .active {
+    color: var(--main_color);
+}
+
+.auth {
+    font-size: 1.7rem;
+    color: #E5E5E5;
+}
+
+.auth a {
+    font-size: 1.7rem;
+    color: var(--main_color);
+}

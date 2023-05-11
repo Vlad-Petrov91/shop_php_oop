@@ -7,6 +7,7 @@ use app\models\entities\Basket;
 use app\models\entities\User;
 use app\models\repositories\BasketRepository;
 use app\models\repositories\UserRepository;
+use app\engine\App;
 
 abstract class Controller
 {
@@ -34,9 +35,9 @@ abstract class Controller
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', [
-                'userName' => (new UserRepository())->getName(),
-                'isAuth' => (new UserRepository())->isAuth(),
-                'count' => (new BasketRepository())->getCountWhere('session_id', session_id())
+                'userName' => App::call()->userRepository->getName(),
+                'isAuth' => App::call()->userRepository->isAuth(),
+                'count' => App::call()->basketRepository->getCountWhere('session_id', session_id())
             ]),
             'content' => $this->renderTemplate($template, $params)
         ]);
