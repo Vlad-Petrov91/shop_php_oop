@@ -6,6 +6,7 @@ use app\models\repositories\BasketRepository;
 use app\models\repositories\ProductRepository;
 use app\models\repositories\UserRepository;
 use app\traits\TSingletone;
+use app\engine\Router;
 
 class App
 {
@@ -20,20 +21,26 @@ class App
     {
         $this->config = $config;
         $this->components = new Storage();
+        // вызов контроллера(старая версия)
         $this->runController();
+
+        // переход на router
+
+
     }
 
     protected function runController()
     {
-        $this->controller = $this->request->getControllerName() ?: 'index';
-        $this->action = $this->request->getActionName();
-        $controllerClass = $this->config['controllers_namespaces'] . ucfirst($this->controller) . "Controller";
-        if (class_exists($controllerClass)) {
-            $controller = new $controllerClass(new TwigRender());
-            $controller->runAction($this->action);
-        } else {
-            echo '404';
-        }
+        $router = $this->router->run();
+//        $this->controller = $this->request->getControllerName() ?: 'index';
+//        $this->action = $this->request->getActionName();
+//        $controllerClass = $this->config['controllers_namespaces'] . ucfirst($this->controller) . "Controller";
+//        if (class_exists($controllerClass)) {
+//            $controller = new $controllerClass(new TwigRender());
+//            $controller->runAction($this->action);
+//        } else {
+//            echo '404';
+//        }
     }
 
     public function createComponent($name)

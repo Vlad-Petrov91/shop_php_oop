@@ -9,12 +9,15 @@ use app\models\repositories\UserRepository;
 
 class AuthController extends Controller
 {
-    public function actionLogin()
+    public function actionLogin($params = [])
     {
-        $login = App::call()->request->params['login'];
-        $pass = App::call()->request->params['pass'];
+//        $login = App::call()->request->params['login'];
+//        $pass = App::call()->request->params['pass'];
 
-        if ((new UserRepository())->Auth($login, $pass)) {
+        $login = $params['login'];
+        $pass = $params['pass'];
+
+        if (App::call()->userRepository->Auth($login, $pass)) {
             header("Location: /");
             die();
         } else {

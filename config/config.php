@@ -9,6 +9,7 @@ use app\models\repositories\BasketRepository;
 use app\engine\Session;
 use app\engine\TwigRender;
 use app\engine\Render;
+use app\engine\Router;
 
 //define("ROOT", dirname(__DIR__));
 //define("DS", DIRECTORY_SEPARATOR);
@@ -52,6 +53,9 @@ return [
         ],
         'render' => [
             'class' => Render::class,
+        ],
+        'router' => [
+            'class' => Router::class,
         ]
     ]
 ];

@@ -20,12 +20,12 @@ abstract class Controller
         $this->render = $render;
     }
 
-    public function runAction($action)
+    public function runAction($action,$params)
     {
         $this->action = $action ?: $this->defaultAction;
         $method = 'action' . ucfirst($this->action);
         if (method_exists($this, $method)) {
-            $this->$method();
+            $this->$method($params);
         } else {
             die('404 нет такого метода');
         }
@@ -35,7 +35,7 @@ abstract class Controller
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', [
-                'userName' => App::call()->userRepository->getName(),
+                'userName' => App::call()->userRepository->getLogin(),
                 'isAuth' => App::call()->userRepository->isAuth(),
                 'count' => App::call()->basketRepository->getCountWhere('session_id', session_id())
             ]),

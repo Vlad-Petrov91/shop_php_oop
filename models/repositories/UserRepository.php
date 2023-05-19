@@ -24,7 +24,7 @@ class UserRepository extends Repository
         return isset($_SESSION['login']);
     }
 
-    public function getName()
+    public function getLogin()
     {
         return $_SESSION['login'];
     }

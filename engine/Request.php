@@ -5,6 +5,7 @@ namespace app\engine;
 class Request
 {
     protected $requstString;
+    protected $requestPath;
     protected $controllerName;
     protected $actionName;
     protected $method;
@@ -21,16 +22,6 @@ class Request
         if (property_exists($this, $property)) {
             return $this->$property;
         }
-    }
-
-    public function getControllerName()
-    {
-        return $this->controllerName;
-    }
-
-    public function getActionName()
-    {
-        return $this->actionName;
     }
 
     protected function parseRequest()

@@ -1,8 +1,26 @@
-<h2>Товар</h2>
+<section class="content">
+    <h2>Товар</h2>
 
-<div>
-    <h3>{{ product.name }}</h3>
-    <p>{{ product.description }}</p>
-    <p>{{ product.price }}</p>
-    <button>Купить</button>
-</div>
+    <div>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }}</p>
+        <button class="buy" data-id="{{ product.id }}">Купить</button>
+    </div>
+</section>
+
+<script>
+    let buttons = document.querySelectorAll('.buy');
+    buttons.forEach((elem) => {
+        elem.addEventListener('click', () => {
+            let id = elem.getAttribute('data-id');
+            (
+                async () => {
+                    const responce = await fetch('/basket/add/?id=' + id);
+                    const answer = await responce.json();
+                    document.getElementById('count').innerText = answer.count;
+                }
+            )();
+        })
+    })
+</script>

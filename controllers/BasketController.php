@@ -3,10 +3,8 @@
 namespace app\controllers;
 
 use app\engine\App;
-use app\engine\Request;
 use app\engine\Session;
 use app\models\entities\Basket;
-use app\models\repositories\BasketRepository;
 
 class BasketController extends Controller
 {
@@ -20,9 +18,10 @@ class BasketController extends Controller
         ]);
     }
 
-    public function actionAdd()
+    public function actionAdd($params = [])
     {
-        $id = App::call()->request->params['id'];
+        //$id = App::call()->request->params['id'];
+        $id = $params['id'];
         $session_id = App::call()->session->getId();
         $basket = new Basket($session_id, $id);
         App::call()->basketRepository->save($basket);
