@@ -6,6 +6,7 @@ use app\engine\Request;
 use app\models\repositories\UserRepository;
 use app\models\repositories\ProductRepository;
 use app\models\repositories\BasketRepository;
+use app\models\repositories\OrderRepository;
 use app\engine\Session;
 use app\engine\TwigRender;
 use app\engine\Render;
@@ -44,6 +45,9 @@ return [
         ],
         'productRepository' => [
             'class' => ProductRepository::class,
+        ],
+        'orderRepository' => [
+            'class' => OrderRepository::class,
         ],
         'session' => [
             'class' => Session::class,

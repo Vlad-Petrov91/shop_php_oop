@@ -11,8 +11,8 @@ use app\engine\App;
 
 abstract class Controller
 {
-    protected $action;
-    protected $defaultAction = 'index';
+//    protected $action;
+//    protected $defaultAction = 'index';
     protected $render;
 
     public function __construct(IRender $render)
@@ -20,16 +20,16 @@ abstract class Controller
         $this->render = $render;
     }
 
-    public function runAction($action,$params)
-    {
-        $this->action = $action ?: $this->defaultAction;
-        $method = 'action' . ucfirst($this->action);
-        if (method_exists($this, $method)) {
-            $this->$method($params);
-        } else {
-            die('404 нет такого метода');
-        }
-    }
+//    public function runAction($action,$params)
+//    {
+//        $this->action = $action ?: $this->defaultAction;
+//        $method = 'action' . ucfirst($this->action);
+//        if (method_exists($this, $method)) {
+//            $this->$method($params);
+//        } else {
+//            die('404 нет такого метода');
+//        }
+//    }
 
     public function render($template, $params = [])
     {

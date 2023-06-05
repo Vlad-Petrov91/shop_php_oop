@@ -4,12 +4,12 @@ namespace app\engine;
 
 class Session
 {
-    public function set($key, $value)
+    public function __set($key, $value)
     {
         $_SESSION[$key] = $value;
     }
 
-    public function get($key)
+    public function __get($key)
     {
         return $_SESSION[$key];
     }

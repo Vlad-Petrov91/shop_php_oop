@@ -8,25 +8,30 @@ class User extends Model
 {
     protected ?int $id;
     protected ?string $login;
-
     protected ?string $pass;
+    protected ?string $email;
     protected ?string $name;
-    protected ?string $cookieHash;
-    protected ?bool $isAdmin;
+    protected ?string $authToken;
+    protected ?int $isConfirmed;
+    protected ?int $isAdmin;
     protected $props = [
         'login' => false,
         'pass' => false,
+        'email' => false,
         'name' => false,
-        'cookieHash' => false
+        'authToken' => false,
+        'isConfirmed' => false,
+        'isAdmin' => false,
     ];
 
-    public function __construct(string $login = null, string $pass = null, string $name = null, string $cookieHash = null, bool $isAdmin = null)
+    public function __construct(string $login = null, string $pass = null, string $email = null, string $name = null, string $authToken = null, bool $isConfirmed = null, bool $isAdmin = null)
     {
         $this->login = $login;
         $this->pass = $pass;
+        $this->email = $email;
         $this->name = $name;
-        $this->cookieHash = $cookieHash;
+        $this->authToken = $authToken;
+        $this->isConfirmed = $isConfirmed;
         $this->isAdmin = $isAdmin;
-
     }
 }

@@ -2,13 +2,13 @@
 
 namespace app\models;
 
-use app\engine\Db;
 use app\interfaces\IRepository;
 use app\engine\App;
 
 abstract class Repository implements IRepository
 {
     protected abstract function getTableName();
+
     protected abstract function getEntityClass();
 
     public function insert(Model $entity)
@@ -24,7 +24,6 @@ abstract class Repository implements IRepository
         $attributes = implode(',', $attributes);
         $placeHolders = implode(',', array_keys($params));
         $tableName = $this->getTableName();
-
         $sql = "INSERT INTO {$tableName} ({$attributes}) VALUES ({$placeHolders})";
         App::call()->db->execute($sql, $params);
         $entity->id = App::call()->db->lastInsertId();
@@ -83,9 +82,17 @@ abstract class Repository implements IRepository
     public function getCountWhere($name, $value)
     {
         $tableName = $this->getTableName();
-        $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name} = :value";
+        $sql = "SELECT SUM(quantity) as count FROM {$tableName} WHERE {$name} = :value";
         return App::call()->db->queryOne($sql, ['value' => $value])['count'];
     }
+
+    // старая функция подсчета количества продуктов в корзине
+//    public function getCountWhere($name, $value)
+//    {
+//        $tableName = $this->getTableName();
+//        $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name} = :value";
+//        return App::call()->db->queryOne($sql, ['value' => $value])['count'];
+//    }
 
     public function getAll()
     {
@@ -99,5 +106,12 @@ abstract class Repository implements IRepository
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} LIMIT 0, ?";
         return App::call()->db->queryLimit($sql, $limit);
+    }
+
+    public function findOneByColumn($name, $value)
+    {
+        $tableName = $this->getTableName();
+        $sql = "SELECT * FROM {$tableName} WHERE {$name} = :value LIMIT 1";
+        return App::call()->db->queryColumn($sql, ['value' => $value]);
     }
 }

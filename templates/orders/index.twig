@@ -1,0 +1,17 @@
+<section class="content">
+    <h2 class="heading"> <span>Заказы</span></h2>
+    <div class="catalog-container">
+        {% for order in orderList %}
+            <div class="catalog-box">
+
+                <p>{{ order.id }}</p>
+                <p>{{ order.name }}</p>
+                <p>{{ order.address }}</p>
+
+            </div>
+        {% else %}
+            <h2 class="heading"> <span>Нет заказов</span></h2>
+        {% endfor %}
+    </div>
+
+</section>

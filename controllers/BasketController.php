@@ -11,19 +11,35 @@ class BasketController extends Controller
 
     public function actionIndex()
     {
-        $session_id = (new Session())->getId();
+        $session_id = App::call()->session->getId();
         $basket = App::call()->basketRepository->getBasket($session_id);
+        $session_id = App::call()->session->getId();
         echo $this->render('basket/index', [
-            'basket' => $basket
+            'basket' => $basket,
+            'session_id' => $session_id,
         ]);
     }
 
     public function actionAdd($params = [])
     {
         //$id = App::call()->request->params['id'];
-        $id = $params['id'];
+        $product_id = intval($params['id']);
         $session_id = App::call()->session->getId();
-        $basket = new Basket($session_id, $id);
+        $user_id = App::call()->session->user_id;
+
+        $basket = App::call()->basketRepository->getBasketItem($session_id, $product_id);
+        if($basket) {
+            $basket->quantity +=1;
+        } else {
+            $quantity = 1;
+            $basket = new Basket($session_id, $product_id, $user_id, $quantity);
+        }
+
+        // $count = 1;
+        //   $count = App::call()->basketRepository->getCountBasketItem($session_id, $user_id, $id) ?? 1;
+        //     $basket = App::call()->basketRepository->getBasketItemAuth($user_id, $id) ?? App::call()->basketRepository->getBasketItem($session_id, $id);
+
+
         App::call()->basketRepository->save($basket);
 
         $responce = [
@@ -37,7 +53,7 @@ class BasketController extends Controller
     public function actionDelete()
     {
         $id = App::call()->request->params['id'];
-        $session_id = (new Session())->getId();
+        $session_id = App::call()->session->getId();
         $basket = App::call()->basketRepository->getOne($id);
         $status = 'ok';
 

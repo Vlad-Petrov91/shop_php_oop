@@ -12,7 +12,7 @@ try {
 } catch (PDOException $exception) {
     var_dump($exception->getMessage());
 } catch (Exception $exception) {
-    var_dump($exception);
+   var_dump($exception->getMessage());
 }
 
 

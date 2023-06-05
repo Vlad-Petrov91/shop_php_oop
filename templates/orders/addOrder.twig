@@ -1,0 +1,27 @@
+<section class="content">
+    <h2 class="heading"><span>Заказы</span></h2>
+    <div class="catalog-container">
+        {% for item in order %}
+            <div class="catalog-box">
+
+                <p>{{ item.id }}</p>
+                <p>{{ item.name }}</p>
+                <p>{{ item.price }}</p>
+
+            </div>
+        {% else %}
+            <h2 class="heading"><span>Нет заказов</span></h2>
+        {% endfor %}
+    </div>
+    <form action="/orders/add/" method="post">
+        <label for="name">Имя</label>
+        <input type="text" id="name" name="name" placeholder="Логин" value="Иван"><br>
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" name="phone"><br>
+        <label for="address">Адрес</label>
+        <input type="text" id="address" name="address"><br>
+        <input class="btn" type="submit" name="submit" value="Отправить"><br>
+    </form>
+
+
+</section>

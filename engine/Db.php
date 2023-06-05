@@ -65,6 +65,11 @@ class Db
         return $this->query($sql, $params)->fetch();
     }
 
+    public function queryColumn(string $sql, array $params = [])
+    {
+        return $this->query($sql, $params)->fetchColumn();
+    }
+
     public function queryAll(string $sql, array $params = [])
     {
         return $this->query($sql, $params)->fetchAll();
@@ -81,12 +86,10 @@ class Db
         $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
         return $STH->fetch();
     }
-
     public function queryLimit(string $sql, int $limit)
     {
         $STH = $this->getConnection()->prepare($sql);
         $STH->bindValue(1, $limit, \PDO::PARAM_INT);
-//        $STH->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $class);
         $STH->execute();
         return $STH->fetchAll();
     }

@@ -14,7 +14,10 @@ class TwigRender implements IRender
     public function __construct()
     {
         $loader = new \Twig\Loader\FilesystemLoader('../templates');
-        $this->twig = new \Twig\Environment($loader);
+        $this->twig = new \Twig\Environment($loader,[
+        'debug' => true,
+        ]);
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
     }
 
     public function renderTemplate($template, $params = [])
