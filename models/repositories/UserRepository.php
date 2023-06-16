@@ -15,7 +15,9 @@ class UserRepository extends Repository
         $user = $this->getWhere('login', $login);
         if ($user && password_verify($pass, $user->pass)) {
             App::call()->session->__set('login', $login);
-            App::call()->session->__set('user_id', $user->id);
+            App::call()->session->__set('userId', $user->id);
+            App::call()->session->__set('userName', $user->name);
+            App::call()->session->__set('isAdmin', $user->isAdmin);
             return true;
         }
         return false;
@@ -26,14 +28,24 @@ class UserRepository extends Repository
         return isset($_SESSION['login']);
     }
 
+    public function isAdmin()
+    {
+        return $_SESSION['isAdmin'];
+    }
+
     public function getLogin()
     {
         return $_SESSION['login'];
     }
 
+    public function getName()
+    {
+        return $_SESSION['userName'];
+    }
+
     public function getUserId()
     {
-        return $_SESSION['user_id'];
+        return $_SESSION['userId'];
     }
 
     protected function getTableName()

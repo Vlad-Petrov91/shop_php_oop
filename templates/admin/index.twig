@@ -1,0 +1,51 @@
+<section class="content">
+    <h2 class="heading"><span>Заказы</span></h2>
+    <div class="catalog-container">
+
+        <table class="orderList">
+            <tr>
+                <th>id</th>
+                <th>Имя</th>
+                <th>Адрес</th>
+                <th>Статус</th>
+                <th>Дата</th>
+                <th>Инфо</th>
+            </tr>
+            {% for order in ordersList %}
+                <tr id="{{ order.id }}">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.date }}</td>
+                    <td><a href="/orders/info/?id={{ order.id }}">Подробнее</a>
+                        <a href="/orders/info/?id={{ order.id }}"> [R] </a>
+                        <button data-id="{{ order.id }}" class="btn delete">[X]</button>
+                    </td>
+                </tr>
+
+            {% else %}
+                <h2 class="heading"><span>Нет заказов</span></h2>
+            {% endfor %}
+        </table>
+    </div>
+    {% if ordersList %}
+        <h2 class="heading"><span><a href="/admin?page={{ page }}">Ещё</a></span></h2>
+    {% endif %}
+</section>
+
+<script>
+    let deleteItemButton = document.querySelectorAll('.delete');
+    deleteItemButton.forEach((elem) => {
+        elem.addEventListener('click', () => {
+            let id = elem.getAttribute('data-id');
+            (
+                async () => {
+                    const responce = await fetch('/orders/delete/?id=' + id);
+                    const answer = await responce.json();
+                    document.getElementById(id).remove();
+                }
+            )();
+        })
+    })
+</script>

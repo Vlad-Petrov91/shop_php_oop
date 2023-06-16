@@ -1,5 +1,5 @@
 * {
-    /*font-family: 'Comfortaa', cursive;*/
+    font-family: 'Comfortaa', cursive;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
@@ -25,6 +25,7 @@ body {
     background: var(--bg-color);
     color: var(--text-color);
 }
+
 section {
     min-height: 100vh;
     padding: 10rem 9% 2rem;
@@ -124,14 +125,14 @@ section {
 
 .catalog-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 4rem;
 }
 
 .catalog-container .catalog-box {
-    flex: 1 3 30rem;
+    flex: 0 3 35rem;
     background-color: var(--card-color);
     padding: 3rem 2rem 4rem;
     border-radius: 2rem;
@@ -157,4 +158,112 @@ section {
 .catalog-box p {
     font-size: 1.6rem;
     margin: 1rem 0 3rem;
+}
+
+.basket-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    margin: 1rem;
+}
+
+.basket-box button {
+    font-size: 1.2rem;
+    display: inline-block;
+    padding: 0.7rem 0.7rem;
+    background-color: var(--main_color);
+    border-radius: 3rem;
+    box-shadow: 0 0 1rem var(--main_color);
+    color: var(--second-bg-color);
+    letter-spacing: .1rem;
+    cursor: pointer;
+}
+
+.basket-box button:hover {
+    box-shadow: none;
+}
+
+.basket-box button:disabled {
+    box-shadow: none;
+    background-color: var(--card-color);
+    cursor: default;
+}
+
+.basketCountInfo {
+    width: 38%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.auth-form {
+    display: none;
+}
+
+.orderList {
+    font-size: 150%;
+    color: black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.orderList td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.orderList tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.sign-up-box {
+    background-color: var(--second-bg-color);
+    color: #E5E5E5;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.sign-up-box h2 {
+    padding-top: 2rem;
+    font-size: 2.5rem;
+}
+
+.sign-up-box form {
+    max-width: 70rem;
+    margin: 1rem auto;
+    margin-bottom: 3rem;
+}
+
+.sign-up-box form .input-box {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.sign-up-box form .input-box input {
+    width: 80%;
+    padding: 1.5rem;
+    font-size: 1.6rem;
+    border-radius: .8rem;
+    margin: .7rem 0;
+}
+
+.sign-up-box form .btn {
+    margin: 2rem;
+    cursor: pointer;
+}
+
+.sign-up-error-message {
+    background-color: #f82929;
+    color: black;
+    font-size: 1.6rem;
+    width: 80%;
+    padding: 1.5rem;
+    border-radius: .8rem;
+    margin: .7rem 0;
 }

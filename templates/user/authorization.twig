@@ -1,0 +1,15 @@
+<section class="content">
+    <div class="sign-up-box">
+        <h2 class="heading"><span>Авторизация</span></h2>
+        <form class="sign-up-form" action="/auth/login" method="post">
+            <div class="input-box">
+                {% if error %}
+                    <div class="sign-up-error-message"> {{ error }}</div>
+                {% endif %}
+                <input type="text" value="{{ login }}" id="login" name="login" placeholder="Логин">
+                <input type="password" value="{{ pass }}" id="pass" name="pass" placeholder="Пароль">
+            </div>
+            <input class="btn" type="submit" name="submit" value="Войти"><br>
+        </form>
+    </div>
+</section>

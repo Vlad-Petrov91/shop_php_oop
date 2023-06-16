@@ -11,7 +11,7 @@ class RegistrationController extends Controller
 
     public function actionIndex()
     {
-        echo $this->render('registration/index');
+        echo $this->render('user/registration');
     }
 
     public function actionSignUp($params = [])
@@ -19,12 +19,12 @@ class RegistrationController extends Controller
         try {
             $user = $this->signUp($params);
         } catch (InvalidArgumentException $e) {
-            echo $this->render('registration/index', array_merge($params, ['error' => $e->getMessage()]));
+            echo $this->render('user/registration', array_merge($params, ['error' => $e->getMessage()]));
             return;
         }
         if ($user instanceof User) {
             App::call()->userRepository->insert($user);
-            echo $this->render('registration/signUpSuccessful');
+            echo $this->render('user/signUpSuccessful');
             return;
         }
         die();

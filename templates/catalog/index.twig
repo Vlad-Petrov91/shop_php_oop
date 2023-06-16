@@ -4,9 +4,9 @@
         {% for item in catalog %}
         <div class="catalog-box">
             <h3><a href="/catalog/card/?id={{ item.id }}">{{ item.name }}</a></h3>
-            <p>{{ item.name }}</p>
-            <button class="buy" data-id="{{ item.id }}">Купить</button>
-            <a href="/basket/add/?id={{ item.id }}" class="btn">Купить</a>
+            <p>{{ item.description }}</p>
+            <p>Стоимость: {{ item.price }} руб</p>
+            <button class="buy btn" data-id="{{ item.id }}">Купить</button>
         </div>
         {% else %}
             <h2 class="heading"> <span>Нет товаров</span></h2>

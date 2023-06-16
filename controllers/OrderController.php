@@ -5,15 +5,26 @@ namespace app\controllers;
 use app\controllers\Controller;
 use app\engine\App;
 use app\models\entities\Order;
+use app\models\entities\OrderItem;
 
 class OrderController extends Controller
 {
     public function actionIndex($params = [])
     {
-        $userId = App::call()->userRepository->getUserId() ?? App::call()->session->getId();
-        $orderList = App::call()->orderRepository->getOrderList($userId);
+        $userId = $userId = App::call()->session->userId;
+        $orderList = App::call()->orderRepository->getOrders($userId);
         echo $this->render('orders/index', [
             'orderList' => $orderList,
+        ]);
+    }
+
+    public function actionInfo($params = [])
+    {
+        $orderId = $params['id'];
+        $orderItems = App::call()->orderRepository->getOrderList($orderId);
+        echo $this->render('orders/order', [
+            'orderId' => $orderId,
+            'orderItems' => $orderItems,
         ]);
     }
 
@@ -21,37 +32,60 @@ class OrderController extends Controller
     {
         if (App::call()->request->method === 'GET') {
             //$id = App::call()->request->params['id'];
-            $session_id = App::call()->session->getId();
-            $basket = App::call()->basketRepository->getBasket($session_id);
+            $sessionId = App::call()->session->getId();
+            $basket = App::call()->basketRepository->getBasket($sessionId);
+            $isAuth = App::call()->userRepository->isAuth();
+            $userName = App::call()->userRepository->getName();
             echo $this->render('orders/addOrder', [
                 'order' => $basket,
+                'isAuth' => $isAuth,
+                'userName' => $userName
             ]);
         }
         if (App::call()->request->method === 'POST') {
-            $user_id = App::call()->request->params['user_id'] ?? 1;
+            $sessionId = App::call()->session->getId();
+            $userId = App::call()->session->userId;
             $status = 'Оформлен';
-            $name = App::call()->request->params['name'];
+            $name = App::call()->userRepository->getName();
             $phone = App::call()->request->params['phone'];
             $address = App::call()->request->params['address'];
-            $uniq_id = uniqid();
+            $uniqId = uniqid();
 
-            $order = new Order($user_id,$status,$name,$phone,$address,$uniq_id);
-            App::call()->orderRepository->save($order);
+            $order = new Order($userId, $status, $name, $phone, $address, $uniqId);
+            App::call()->orderRepository->insert($order);
+            $id = App::call()->db->lastInsertId();
 
-            $responce = [
-                'status' => 'ok',
-            ];
-            echo json_encode($responce, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $orderItems = App::call()->basketRepository->getBasket($sessionId);
+            $orderItemsArray = [];
+            foreach ($orderItems as $item) {
+                $orderParams = App::call()->orderItemRepository->addOrderList($item['basketId']);
+                $orderParams->orderId = $id;
+                App::call()->orderItemRepository->insert($orderParams);
+            }
+            App::call()->basketRepository->deleteBasket($sessionId);
+
+            header("Location: /orders");
             die();
 
         }
+    }
 
+    public function actionDelete($params = [])
+    {
+        $order = App::call()->orderRepository->getOne($params['id']);
+        $status = 'ok';
 
+        if (App::call()->userRepository->isAdmin()) {
+            App::call()->orderRepository->delete($order);
+        } else {
+            $status = 'error';
+        }
         $responce = [
-            'status' => 'ok',
-            'count' => App::call()->basketRepository->getCountWhere('session_id', $session_id),
+            'status' => $status,
+            'id' => $order->id,
         ];
         echo json_encode($responce, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         die();
     }
+
 }

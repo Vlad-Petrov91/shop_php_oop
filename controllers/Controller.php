@@ -31,13 +31,21 @@ abstract class Controller
 //        }
 //    }
 
+//    private function getActivePage()
+//    {
+//
+//
+//    }
+
     public function render($template, $params = [])
     {
         return $this->renderTemplate('layouts/main', [
             'menu' => $this->renderTemplate('menu', [
                 'userName' => App::call()->userRepository->getLogin(),
                 'isAuth' => App::call()->userRepository->isAuth(),
-                'count' => App::call()->basketRepository->getCountWhere('session_id', session_id())
+                'isAdmin' => App::call()->userRepository->isAdmin(),
+                'count' => App::call()->basketRepository->getCountWhere('sessionId', session_id()),
+                'activePage' => App::call()->request->getActivePage(),
             ]),
             'content' => $this->renderTemplate($template, $params)
         ]);

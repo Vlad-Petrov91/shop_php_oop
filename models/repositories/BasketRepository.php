@@ -8,36 +8,45 @@ use app\models\Repository;
 
 class BasketRepository extends Repository
 {
-    public function getBasket($session_id)
+    public function getBasket($sessionId)
     {
-        $sql = "SELECT basket.id as basket_id, products.id as prod_id, products.name, products.description, products.price FROM `basket`, `products` WHERE `session_id` = :session_id AND basket.product_id = products.id";
-        return App::call()->db->queryAll($sql, ['session_id' => $session_id]);
+        $sql = "SELECT basket.id as basketId, products.id as prodId, products.name, products.description, basket.quantity, products.price, basket.quantity * products.price as totalPrice FROM `basket`, `products` WHERE `sessionId` = :sessionId AND basket.productId = products.id";
+        return App::call()->db->queryAll($sql, ['sessionId' => $sessionId]);
     }
 
-    public function getBasketItem($session_id, $product_id) {
-        $sql = "SELECT * FROM {$this->getTableName()} WHERE `session_id` = :session_id AND product_id = :product_id";
+    public function deleteBasket($sessionId)
+    {
+        $sql = "DELETE FROM {$this->getTableName()} WHERE `sessionId` = :sessionId";
+        return App::call()->db->execute($sql, ['sessionId' => $sessionId]);
+    }
+
+
+    public function getBasketItem($sessionId, $productId)
+    {
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE `sessionId` = :sessionId AND productId = :productId";
         return App::call()->db->queryOneObject($sql, [
-            'session_id' => $session_id,
-            'product_id' => $product_id
+            'sessionId' => $sessionId,
+            'productId' => $productId
         ], Basket::class);
     }
 
-    public function getBasketItemAuth($user_id, $product_id) {
-        $sql = "SELECT * FROM {$this->getTableName()} WHERE user_id = :user_id AND product_id = :product_id";
+    public function getBasketItemAuth($userId, $productId)
+    {
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE userId = :userId AND productId = :productId";
         return App::call()->db->queryOne($sql, [
-            'user_id' => $user_id,
-            'product_id' => $product_id
+            'userId' => $userId,
+            'productId' => $productId
         ]);
     }
 
 
-    public function getCountBasketItem($session_id, $user_id, $product_id)
+    public function getCountBasketItem($sessionId, $userId, $productId)
     {
-        $sql = "SELECT `count` FROM {$this->getTableName()} WHERE `session_id` = :session_id AND user_id = :user_id AND product_id = :product_id";
+        $sql = "SELECT `count` FROM {$this->getTableName()} WHERE `sessionId` = :sessionId AND userId = :userId AND productId = :productId";
         return App::call()->db->queryColumn($sql, [
-            'session_id' => $session_id,
-            'user_id' => $user_id,
-            'product_id' => $product_id
+            'sessionId' => $sessionId,
+            'userId' => $userId,
+            'productId' => $productId
         ]);
     }
 

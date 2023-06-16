@@ -3,25 +3,32 @@
     <div class="catalog-container">
         {% for item in order %}
             <div class="catalog-box">
-
-                <p>{{ item.id }}</p>
-                <p>{{ item.name }}</p>
-                <p>{{ item.price }}</p>
+                <div id="{{ item.basketId }}">
+                    <h3><a href="/product/card/?id={{ item.prodId }}">{{ item.name }}</a></h3>
+                    <p>{{ item.name }}</p>
+                    <p>Количество {{ item.quantity }}</p>
+                    <p>Цена {{ item.price * item.quantity }}</p>
+                    <button class="delete" data-id="{{ item.basketId }}">Удалить</button>
+                </div>
 
             </div>
         {% else %}
             <h2 class="heading"><span>Нет заказов</span></h2>
         {% endfor %}
     </div>
-    <form action="/orders/add/" method="post">
-        <label for="name">Имя</label>
-        <input type="text" id="name" name="name" placeholder="Логин" value="Иван"><br>
-        <label for="phone">Телефон</label>
-        <input type="tel" id="phone" name="phone"><br>
-        <label for="address">Адрес</label>
-        <input type="text" id="address" name="address"><br>
-        <input class="btn" type="submit" name="submit" value="Отправить"><br>
-    </form>
 
+    {% if isAuth %}
 
+        <p>Уважаемый(ая) {{ userName }}, для оформления заказа введите адрес и телефон</p>
+        <form action="/orders/add/" method="post">
+            <label for="phone">Телефон</label>
+            <input type="tel" id="phone" name="phone"><br>
+            <label for="address">Адрес</label>
+            <input type="text" id="address" name="address"><br>
+            <input class="btn" type="submit" name="submit" value="Оформить"><br>
+        </form>
+    {% else %}
+        <h2 class="heading"><span>Для оформления заказа зарегистрируйтесь</span></h2>
+        <a href="/registration">Регистрация</a>
+    {% endif %}
 </section>

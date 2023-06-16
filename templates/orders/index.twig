@@ -7,6 +7,9 @@
                 <p>{{ order.id }}</p>
                 <p>{{ order.name }}</p>
                 <p>{{ order.address }}</p>
+                <p>{{ order.status }}</p>
+                <p>{{ order.date }}</p>
+                <a href="/orders/info/?id={{ order.id }}">Подробнее</a>
 
             </div>
         {% else %}

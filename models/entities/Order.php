@@ -7,7 +7,7 @@ use app\models\Model;
 class Order extends Model
 {
     protected $id;
-    protected $user_id;
+    protected $userId;
     protected $status;
 
     protected $name;
@@ -15,36 +15,34 @@ class Order extends Model
     protected $phone;
 
     protected $address;
-    protected $uniq_id;
+    protected $uniqId;
 
 
     protected $props = [
-        'user_id' => false,
+        'userId' => false,
         'status' => false,
         'name' => false,
         'phone' => false,
         'address' => false,
-        'uniq_id' => false
+        'uniqId' => false
     ];
 
 
     /**
-     * @param $user_id
+     * @param $userId
      * @param $status
      * @param $name
      * @param $phone
      * @param $address
-     * @param $uniq_id
+     * @param $uniqId
      */
-    public function __construct($user_id = null, $status = null, $name = null, $phone = null, $address = null, $uniq_id = null)
+    public function __construct($userId = null, $status = null, $name = null, $phone = null, $address = null, $uniqId = null)
     {
-        $this->user_id = $user_id;
+        $this->userId = $userId;
         $this->status = $status;
         $this->name = $name;
         $this->phone = $phone;
         $this->address = $address;
-        $this->uniq_id = $uniq_id;
+        $this->uniqId = $uniqId;
     }
-
-
 }

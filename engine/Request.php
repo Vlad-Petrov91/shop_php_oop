@@ -24,6 +24,12 @@ class Request
         }
     }
 
+    public function getActivePage()
+    {
+        preg_match('/[a-z]+/', $this->requstString, $pageString);
+        return $pageString[0];
+    }
+
     protected function parseRequest()
     {
         $this->requstString = $_SERVER['REQUEST_URI'];

@@ -1,24 +1,45 @@
 <section class="content">
-    <h2 class="heading"> <span>Корзина</span></h2>
+    <h2>Корзина</h2>
     <div class="basket-container">
-    {% for item in basket %}
-        <div id="{{ item.basket_id }}">
-            <h3><a href="/product/card/?id={{ item.prod_id }}">{{ item.name }}</a></h3>
-            <p>{{ item.name }}</p>
-            <p>Количество {{ item.quantity }}</p>
-            <p>сессия {{ session_id }}</p>
-            <button class="delete" data-id="{{ item.basket_id }}">Удалить</button>
-        </div>
-    {% else %}
-        Корзина пуста
-    {% endfor %}
-    <div>
-        <a class="btn" href="/orders/add/">Оформить заказ</a>
-    </div>
+        {% for item in basket %}
+            <div class="basket-box" id="{{ item.basketId }}">
+                <div class="basketItemInfo">
+                    <h2><a href="/catalog/card/?id={{ item.prodId }}">{{ item.name }}</a></h2>
+                </div>
+                <div class="basketCountInfo">
+                    {% if  item.quantity == 1 %}
+                        {% set disableButton = 'disabled' %}
+                    {% else %}
+                        {% set disableButton = '' %}
+                    {% endif %}
+                    <p>Количество</p>
+
+                    <button {{ disableButton }} class="reduce" id="reduceButton{{ item.basketId }}"
+                                                data-id="{{ item.basketId }}">-
+                    </button>
+                    <div><span id="quantityId{{ item.basketId }}">{{ item.quantity }} </span></div>
+                    <button class="increase" data-id="{{ item.basketId }}">+</button>
+
+                    <p> X </p>
+                    <p>{{ item.price }} руб</p>
+                    <p>=</p> <span
+                            id="itemTotalPriceId{{ item.basketId }}">{{ item.totalPrice }}</span> руб
+                    <button class="delete" data-id="{{ item.basketId }}">Удалить</button>
+                </div>
+            </div>
+        {% else %}
+            Корзина пуста
+        {% endfor %}
+        {% if basket %}
+            <div class="basket-box">
+                <a class="btn" href="/orders/add/">Оформить заказ</a>
+                <h2 class="basketTotalPrice">Cумма <span id="basketTotalPrice">{{ basketTotalPrice }}</span> руб</h2>
+            </div>
+        {% endif %}
     </div>
     <script>
-        let buttons = document.querySelectorAll('.delete');
-        buttons.forEach((elem) => {
+        let deleteItemButton = document.querySelectorAll('.delete');
+        deleteItemButton.forEach((elem) => {
             elem.addEventListener('click', () => {
                 let id = elem.getAttribute('data-id');
                 (
@@ -26,10 +47,53 @@
                         const responce = await fetch('/basket/delete/?id=' + id);
                         const answer = await responce.json();
                         document.getElementById('count').innerText = answer.count;
+                        document.getElementById('basketTotalPrice').innerText = answer.basketTotalPrice;
                         document.getElementById(id).remove();
                     }
                 )();
             })
         })
+
+        let increase = document.querySelectorAll('.increase');
+        increase.forEach((elem) => {
+            elem.addEventListener('click', () => {
+                let id = elem.getAttribute('data-id');
+                (
+                    async () => {
+                        const responce = await fetch('/basket/increase/?id=' + id);
+                        const answer = await responce.json();
+                        document.getElementById('count').innerText = answer.count;
+                        document.getElementById('quantityId' + id).innerText = answer.quantity;
+                        if (answer.quantity > 1) {
+                            document.getElementById("reduceButton" + id).disabled = false;
+                        }
+                        document.getElementById('itemTotalPriceId' + id).innerText = answer.itemTotalPrice;
+                        document.getElementById('basketTotalPrice').innerText = answer.basketTotalPrice;
+                    }
+                )();
+            })
+        })
+
+        let reduce = document.querySelectorAll('.reduce');
+        reduce.forEach((elem) => {
+            elem.addEventListener('click', () => {
+                let id = elem.getAttribute('data-id');
+                (
+                    async () => {
+                        const responce = await fetch('/basket/reduce/?id=' + id);
+                        const answer = await responce.json();
+                        document.getElementById('count').innerText = answer.count;
+                        document.getElementById('quantityId' + id).innerText = answer.quantity;
+                        if (answer.quantity == 1) {
+                            // document.getElementById("Button").disabled = true;
+                            elem.disabled = true;
+                        }
+                        document.getElementById('itemTotalPriceId' + id).innerText = answer.itemTotalPrice;
+                        document.getElementById('basketTotalPrice').innerText = answer.basketTotalPrice;
+                    }
+                )();
+            })
+        })
+
     </script>
 </section>
