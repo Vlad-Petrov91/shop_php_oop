@@ -16,6 +16,7 @@ class Order extends Model
 
     protected $address;
     protected $uniqId;
+    protected $date;
 
 
     protected $props = [

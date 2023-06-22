@@ -3,16 +3,16 @@
     <i class="bx bx-menu" id="menu-icon"></i>
     <nav class="navbar">
         <a {% if activePage is empty %}class="active" {% endif %} href="/">Главная</a>
+        {% if isAdmin %}
+            <a {% if  activePage == 'admin' %}class="active" {% endif %} href="/admin">Админка</a>
+        {% endif %}
         <a {% if activePage == 'catalog' %}class="active" {% endif %} href="/catalog">Каталог</a>
-        <a {% if activePage == 'basket' %}class="active" {% endif %} href="/basket">Корзина(<span
-                    id="count">{{ count|default(0) }}</span>)</a>
         {% if isAuth %}
             <a {% if  activePage == 'orders' %}class="active" {% endif %} href="/orders">Мои
                 заказы</a>
         {% endif %}
-        {% if isAdmin %}
-            <a {% if  activePage == 'admin' %}class="active" {% endif %} href="/admin">Админка</a>
-        {% endif %}
+        <a href="/basket"><div class="navbar-basket-img-block"><img class="basket-logo" src="/img/cart.svg" alt="basket"><span {% if activePage == 'basket' %}class="active-logo" {% endif %}
+                        id="count">{{ count|default(0) }}</span></div></a>
     </nav>
     <div class="auth">
         {% if isAuth %}

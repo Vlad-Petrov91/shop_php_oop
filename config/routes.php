@@ -19,4 +19,5 @@ return [
     '/orders/add/' => ['method' => ['GET','POST'], 'controller' => 'Order', 'action' => 'Add'],
     '/orders/delete/' => ['method' => ['POST'], 'controller' => 'Order', 'action' => 'Delete'],
     '/admin' => ['method' => ['GET','POST'], 'controller' => 'Admin', 'action' => 'Index'],
+    '/admin/orders/edit-order/' => ['method' => ['GET','POST'], 'controller' => 'Order', 'action' => 'EditOrder'],
 ];

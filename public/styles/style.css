@@ -56,10 +56,15 @@ section {
     cursor: default;
 }
 
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
 .navbar a {
-    font-size: 1.7rem;
+    font-size: 2.2rem;
     color: #E5E5E5;
-    margin-left: 4rem;
+    margin-left: 2.5rem;
     transition: .3s;
 }
 
@@ -71,8 +76,40 @@ section {
     color: var(--main_color);
 }
 
+.navbar .active-logo {
+    background-color: var(--main_color);
+}
+
+.navbar-basket-img-block {
+    display: inline-block;
+    position: relative;
+    width: auto;
+}
+.basket-logo:hover {
+    fill: var(--main_color);
+}
+
+.navbar-basket-img-block span {
+    background-color: var(--second-bg-color);
+    color: white;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    right: -12px;
+    top: -12px;
+    border: 1px solid var(--main_color);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1.6em;
+}
+
+.navbar-basket-img-block:hover span {
+    background-color: var(--main_color);
+}
+
 .auth {
-    font-size: 1.7rem;
+    font-size: 2rem;
     color: #E5E5E5;
 }
 
@@ -113,6 +150,16 @@ section {
 .btn:hover {
     box-shadow: none;
 }
+
+.btn-change {
+    background-color: #f6da4e;
+    box-shadow: 0 0 1rem #f6da4e;
+}
+.btn-delete {
+    background-color: #f64e4e;
+    box-shadow: 0 0 1rem #f64e4e;
+}
+
 
 /*.content {*/
 /*    display: flex;*/

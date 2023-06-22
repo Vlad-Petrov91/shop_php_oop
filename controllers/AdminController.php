@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\engine\App;
+use app\models\entities\Order;
 
 class AdminController extends Controller
 {

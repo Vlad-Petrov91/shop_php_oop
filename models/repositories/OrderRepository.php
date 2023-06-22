@@ -15,9 +15,15 @@ class OrderRepository extends Repository
         return App::call()->db->queryAll($sql, ['userId' => $userId]);
     }
 
+    public function getOrderInfo($id)
+    {
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE `id` = :id";
+        return App::call()->db->queryOne($sql, ['id' => $id]);
+    }
+
     public function getOrderList($id)
     {
-        $sql = "SELECT products.name, order_items.productId,order_items.quantity,order_items.price FROM `products`,`order_items` WHERE order_items.orderId = :id AND products.id = order_items.productId";
+        $sql = "SELECT order_items.id, products.name, order_items.productId,order_items.quantity,order_items.price FROM `products`,`order_items` WHERE order_items.orderId = :id AND products.id = order_items.productId";
         return App::call()->db->queryAll($sql, ['id' => $id]);
     }
 

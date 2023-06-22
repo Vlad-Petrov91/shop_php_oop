@@ -88,4 +88,60 @@ class OrderController extends Controller
         die();
     }
 
+    public function actionEditOrder($params = [])
+    {
+        if (App::call()->userRepository->isAdmin()) {
+
+            if (App::call()->request->method == 'POST') {
+
+//                $replace = '/(?<=productId)\d+/';
+//                $pattern = '/productId[0-9]+/';
+                $orderItems = array_filter($params, function ($key) {
+                    return preg_match('/productId[0-9]+/', $key);
+                }, ARRAY_FILTER_USE_KEY);
+
+//                $answer = preg_filter($pattern, $replace, $params);
+
+
+                $formatedOrderItems = [];
+                foreach ($orderItems as $key => $value) {
+                    preg_match('/(?<=productId)\d+/', $key, $mathes);
+                    $formatedOrderItems[$mathes[0]] = $value;
+                    $orderItem = App::call()->orderItemRepository->getOne($mathes[0]);
+                    if ($orderItem->quatity !== (int)$value) {
+                        $orderItem->quantity = (int)$value;
+                        App::call()->orderItemRepository->save($orderItem);
+                    }
+
+                }
+
+                $order = App::call()->orderRepository->getOne($params['id']);
+                foreach ($params as $key => $value) {
+                    if (property_exists($order, $key) && $order->$key !== $value) {
+                        $order->$key = $value;
+                    }
+                }
+
+
+                App::call()->orderRepository->save($order);
+                $page = $params['page'] ?? 0;
+                $ordersList = App::call()->orderRepository->getLimit(($page + 1) * 3);
+
+                echo $this->render('admin/index', [
+                    'ordersList' => $ordersList,
+                    'page' => ++$page
+                ]);
+                die();
+            }
+
+            $orderInfo = App::call()->orderRepository->getOrderInfo($params['id']);
+            $orderItems = App::call()->orderRepository->getOrderList($params['id']);
+            echo $this->render('orders/editOrder', [
+                'orderInfo' => $orderInfo,
+                'order' => $orderItems,
+            ]);
+        } else {
+            echo '404';
+        }
+    }
 }
